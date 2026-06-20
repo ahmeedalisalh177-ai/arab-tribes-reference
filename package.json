@@ -1,0 +1,30 @@
+{
+  "name": "arab-tribes-hub",
+  "version": "1.0.0",
+  "main": "server.js",
+  "description": "موقع مرجع القبائل العربية - منصة ديناميكية لنشر معلومات عن أنساب وتاريخ القبائل العربية",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "القبائل العربية",
+    "أنساب",
+    "تاريخ",
+    "مشائخ",
+    "عدنانية",
+    "قحطانية"
+  ],
+  "author": "مرجع القبائل العربية",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^12.11.1",
+    "compression": "^1.8.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "helmet": "^8.2.0",
+    "pg": "^8.22.0"
+  }
+}

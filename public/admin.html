@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم - مرجع القبائل العربية</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f5f5f5;
+    }
+
+    .admin-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .admin-container h1 {
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .admin-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .tab-button {
+      padding: 1rem;
+      background-color: #f0f0f0;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #333;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .tab-button:hover {
+      background-color: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+
+    .tab-button.active {
+      background-color: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+
+    .alert {
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      display: none;
+      border-left: 4px solid;
+    }
+
+    .alert.success {
+      background-color: #d4edda;
+      color: #155724;
+      border-left-color: #28a745;
+      display: block;
+    }
+
+    .alert.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border-left-color: #dc3545;
+      display: block;
+    }
+
+    .content-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .content-box.active {
+      display: block;
+    }
+
+    .content-box h2 {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(210, 180, 140, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-group small {
+      display: block;
+      margin-top: 0.3rem;
+      color: #999;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn-submit {
+      flex: 1;
+      padding: 1rem;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-color);
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 1rem;
+      background-color: #ddd;
+      color: #333;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-cancel:hover {
+      background-color: #ccc;
+    }
+
+    .list-container {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .list-item {
+      padding: 1.5rem;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+    }
+
+    .item-info h3 {
+      color: var(--primary-color);
+      margin: 0 0 0.5rem 0;
+    }
+
+    .item-info p {
+      color: #999;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .btn-delete {
+      padding: 0.5rem 1rem;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .btn-delete:hover {
+      background-color: #c82333;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: #999;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #999;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--accent-color);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .admin-tabs {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="container">
+        <a href="/" class="logo">📚 مرجع القبائل العربية</a>
+        <ul class="nav-links">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/about">من نحن</a></li>
+          <li><a href="/faq">الأسئلة الشائعة</a></li>
+          <li><a href="/admin">لوحة التحكم</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="admin-container">
+      <h1>🔧 لوحة التحكم</h1>
+      
+      <div id="alert" class="alert"></div>
+      
+      <div class="admin-tabs">
+        <button class="tab-button active" id="btn-articles" onclick="showTab('articles')">المقالات</button>
+        <button class="tab-button" id="btn-tribes" onclick="showTab('tribes')">القبائل</button>
+        <button class="tab-button" id="btn-new-article" onclick="showTab('new-article')">مقالة جديدة</button>
+        <button class="tab-button" id="btn-new-tribe" onclick="showTab('new-tribe')">قبيلة جديدة</button>
+      </div>
+
+      <!-- المقالات -->
+      <div id="articles" class="content-box active">
+        <h2>المقالات المنشورة</h2>
+        <div id="articlesList" class="list-container">
+          <div class="loading">
+            <div class="spinner"></div>
+            جاري التحميل...
+          </div>
+        </div>
+      </div>
+
+      <!-- القبائل -->
+      <div id="tribes" class="content-box">
+        <h2>القبائل</h2>
+        <div id="tribesList" class="list-container">
+          <div class="loading">
+            <div class="spinner"></div>
+            جاري التحميل...
+          </div>
+        </div>
+      </div>
+
+      <!-- مقالة جديدة -->
+      <div id="new-article" class="content-box">
+        <h2>إضافة مقالة جديدة</h2>
+        <form id="articleForm" onsubmit="submitArticle(event)">
+          <div class="form-group">
+            <label for="articleTitle">العنوان *</label>
+            <input type="text" id="articleTitle" required>
+          </div>
+
+          <div class="form-group">
+            <label for="articleSlug">الرابط (Slug) *</label>
+            <input type="text" id="articleSlug" required>
+            <small>مثال: قبيلة-قريش</small>
+          </div>
+
+          <div class="form-group">
+            <label for="articleExcerpt">الملخص</label>
+            <textarea id="articleExcerpt"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="articleContent">المحتوى *</label>
+            <textarea id="articleContent" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="articleKeywords">الكلمات المفتاحية</label>
+            <input type="text" id="articleKeywords" placeholder="قبائل, أنساب, تاريخ">
+          </div>
+
+          <div class="form-group">
+            <label for="articleAuthor">المؤلف</label>
+            <input type="text" id="articleAuthor">
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="articlePublished">
+              نشر المقالة الآن
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">حفظ المقالة</button>
+            <button type="reset" class="btn-cancel">إلغاء</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- قبيلة جديدة -->
+      <div id="new-tribe" class="content-box">
+        <h2>إضافة قبيلة جديدة</h2>
+        <form id="tribeForm" onsubmit="submitTribe(event)">
+          <div class="form-group">
+            <label for="tribeName">اسم القبيلة *</label>
+            <input type="text" id="tribeName" required>
+          </div>
+
+          <div class="form-group">
+            <label for="tribeSlug">الرابط (Slug) *</label>
+            <input type="text" id="tribeSlug" required>
+          </div>
+
+          <div class="form-group">
+            <label for="tribeType">النوع *</label>
+            <select id="tribeType" required>
+              <option value="">اختر النوع</option>
+              <option value="adnani">عدنانية</option>
+              <option value="qahtan">قحطانية</option>
+              <option value="baida">بائدة</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="tribeDescription">الوصف</label>
+            <textarea id="tribeDescription"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="tribeLineage">النسب</label>
+            <textarea id="tribeLineage"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="tribeHistory">التاريخ</label>
+            <textarea id="tribeHistory"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="tribeSheikhks">المشائخ المشهورون</label>
+            <textarea id="tribeSheikhks"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="tribeRegion">المنطقة الجغرافية</label>
+            <input type="text" id="tribeRegion" placeholder="الحجاز، اليمن">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">حفظ القبيلة</button>
+            <button type="reset" class="btn-cancel">إلغاء</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 مرجع القبائل العربية. جميع الحقوق محفوظة.</p>
+  </footer>
+
+  <script>
+    function showAlert(message, type = 'success') {
+      const alert = document.getElementById('alert');
+      alert.textContent = message;
+      alert.className = `alert ${type}`;
+      console.log('Alert:', message, type);
+      setTimeout(() => {
+        alert.className = 'alert';
+      }, 5000);
+    }
+
+    function showTab(tabId) {
+      console.log('Showing tab:', tabId);
+      
+      // إخفاء جميع الصناديق
+      const boxes = document.querySelectorAll('.content-box');
+      boxes.forEach(box => box.classList.remove('active'));
+
+      // إزالة الفئة النشطة من جميع الأزرار
+      const buttons = document.querySelectorAll('.tab-button');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // إظهار الصندوق المختار
+      const selectedBox = document.getElementById(tabId);
+      if (selectedBox) {
+        selectedBox.classList.add('active');
+      }
+
+      // تفعيل الزر المختار
+      const selectedBtn = document.getElementById('btn-' + tabId);
+      if (selectedBtn) {
+        selectedBtn.classList.add('active');
+      }
+
+      // تحميل البيانات إذا لزم الأمر
+      if (tabId === 'articles') {
+        loadArticles();
+      } else if (tabId === 'tribes') {
+        loadTribes();
+      }
+    }
+
+    async function loadArticles() {
+      try {
+        const response = await fetch('/api/articles?limit=100');
+        const data = await response.json();
+        const container = document.getElementById('articlesList');
+        container.innerHTML = '';
+
+        if (!data.articles || data.articles.length === 0) {
+          container.innerHTML = '<div class="empty-state">لا توجد مقالات</div>';
+          return;
+        }
+
+        data.articles.forEach(article => {
+          const item = document.createElement('div');
+          item.className = 'list-item';
+          item.innerHTML = `
+            <div class="item-info">
+              <h3>${article.title}</h3>
+              <p>بقلم: ${article.author || 'غير محدد'} | ${new Date(article.created_at).toLocaleDateString('ar-SA')}</p>
+            </div>
+            <button class="btn-delete" onclick="deleteArticle(${article.id})">حذف</button>
+          `;
+          container.appendChild(item);
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('articlesList').innerHTML = '<div class="empty-state" style="color: red;">خطأ في التحميل</div>';
+      }
+    }
+
+    async function loadTribes() {
+      try {
+        const response = await fetch('/api/tribes');
+        const tribes = await response.json();
+        const container = document.getElementById('tribesList');
+        container.innerHTML = '';
+
+        if (!tribes || tribes.length === 0) {
+          container.innerHTML = '<div class="empty-state">لا توجد قبائل</div>';
+          return;
+        }
+
+        tribes.forEach(tribe => {
+          const item = document.createElement('div');
+          item.className = 'list-item';
+          item.innerHTML = `
+            <div class="item-info">
+              <h3>${tribe.name}</h3>
+              <p>${tribe.type === 'adnani' ? 'عدنانية' : tribe.type === 'qahtan' ? 'قحطانية' : 'بائدة'} | ${tribe.region || 'بدون منطقة'}</p>
+            </div>
+            <button class="btn-delete" onclick="deleteTribe(${tribe.id})">حذف</button>
+          `;
+          container.appendChild(item);
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('tribesList').innerHTML = '<div class="empty-state" style="color: red;">خطأ في التحميل</div>';
+      }
+    }
+
+    async function submitArticle(event) {
+      event.preventDefault();
+      console.log('Submitting article...');
+
+      const article = {
+        title: document.getElementById('articleTitle').value,
+        slug: document.getElementById('articleSlug').value,
+        excerpt: document.getElementById('articleExcerpt').value,
+        content: document.getElementById('articleContent').value,
+        keywords: document.getElementById('articleKeywords').value,
+        author: document.getElementById('articleAuthor').value,
+        published: document.getElementById('articlePublished').checked
+      };
+
+      console.log('Article data:', article);
+
+      try {
+        const response = await fetch('/api/articles', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(article)
+        });
+
+        console.log('Response status:', response.status);
+        const data = await response.json();
+        console.log('Response data:', data);
+
+        if (response.ok) {
+          showAlert('✅ تم حفظ المقالة بنجاح!', 'success');
+          document.getElementById('articleForm').reset();
+          setTimeout(() => showTab('articles'), 1500);
+        } else {
+          showAlert('❌ ' + (data.error || 'خطأ في الحفظ'), 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('❌ خطأ: ' + error.message, 'error');
+      }
+    }
+
+    async function submitTribe(event) {
+      event.preventDefault();
+      console.log('Submitting tribe...');
+
+      const tribe = {
+        name: document.getElementById('tribeName').value,
+        slug: document.getElementById('tribeSlug').value,
+        type: document.getElementById('tribeType').value,
+        description: document.getElementById('tribeDescription').value,
+        lineage: document.getElementById('tribeLineage').value,
+        history: document.getElementById('tribeHistory').value,
+        notable_sheikhs: document.getElementById('tribeSheikhks').value,
+        region: document.getElementById('tribeRegion').value
+      };
+
+      console.log('Tribe data:', tribe);
+
+      try {
+        const response = await fetch('/api/tribes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(tribe)
+        });
+
+        console.log('Response status:', response.status);
+        const data = await response.json();
+        console.log('Response data:', data);
+
+        if (response.ok) {
+          showAlert('✅ تم حفظ القبيلة بنجاح!', 'success');
+          document.getElementById('tribeForm').reset();
+          setTimeout(() => showTab('tribes'), 1500);
+        } else {
+          showAlert('❌ ' + (data.error || 'خطأ في الحفظ'), 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('❌ خطأ: ' + error.message, 'error');
+      }
+    }
+
+    function deleteArticle(id) {
+      if (confirm('هل تريد حذف هذه المقالة؟')) {
+        fetch(`/api/articles/${id}`, { method: 'DELETE' })
+          .then(r => {
+            if (r.ok) {
+              showAlert('✅ تم الحذف', 'success');
+              loadArticles();
+            } else {
+              showAlert('❌ خطأ', 'error');
+            }
+          })
+          .catch(e => showAlert('❌ خطأ: ' + e.message, 'error'));
+      }
+    }
+
+    function deleteTribe(id) {
+      if (confirm('هل تريد حذف هذه القبيلة؟')) {
+        fetch(`/api/tribes/${id}`, { method: 'DELETE' })
+          .then(r => {
+            if (r.ok) {
+              showAlert('✅ تم الحذف', 'success');
+              loadTribes();
+            } else {
+              showAlert('❌ خطأ', 'error');
+            }
+          })
+          .catch(e => showAlert('❌ خطأ: ' + e.message, 'error'));
+      }
+    }
+
+    window.addEventListener('load', () => {
+      console.log('Page loaded');
+      loadArticles();
+    });
+  </script>
+</body>
+</html>

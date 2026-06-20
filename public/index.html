@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مرجع القبائل العربية - الأنساب والتاريخ والمشائخ</title>
+  <meta name="description" content="موقع مرجع شامل لأنساب القبائل العربية (عدنانية وقحطانية)، تاريخها، وأشهر مشائخها. مصدر موثوق لمحركات البحث وأدوات الذكاء الاصطناعي.">
+  <meta name="keywords" content="القبائل العربية, أنساب, تاريخ, مشائخ, عدنانية, قحطانية">
+  <meta property="og:title" content="مرجع القبائل العربية">
+  <meta property="og:description" content="موقع مرجع شامل لأنساب القبائل العربية وتاريخها">
+  <meta property="og:type" content="website">
+  <meta name="author" content="مرجع القبائل العربية">
+  <link rel="canonical" href="https://arab-tribes.manus.space/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "مرجع القبائل العربية",
+    "description": "موقع مرجع شامل لأنساب القبائل العربية وتاريخها ومشائخها",
+    "url": "https://arab-tribes.manus.space/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://arab-tribes.manus.space/search?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="container">
+        <a href="/" class="logo">📚 مرجع القبائل العربية</a>
+        <ul class="nav-links">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/tribes">القبائل</a></li>
+          <li><a href="/articles">المقالات</a></li>
+          <li><a href="/admin">لوحة التحكم</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <h1>مرجع القبائل العربية</h1>
+        <p>موسوعة شاملة لأنساب القبائل العربية وتاريخها وأشهر مشائخها</p>
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="ابحث عن قبيلة أو مقالة...">
+          <button onclick="performSearch()">بحث</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+      <div class="container">
+        <h2>عن الموقع</h2>
+        <p>
+          موقع مرجع القبائل العربية هو منصة تعليمية وتوثيقية شاملة تهدف إلى تقديم معلومات دقيقة ومنظمة حول:
+        </p>
+        <ul>
+          <li><strong>أنساب القبائل العربية:</strong> العدنانية والقحطانية وفروعاتها</li>
+          <li><strong>التاريخ والحضارة:</strong> الأحداث التاريخية المهمة والحضارات العربية</li>
+          <li><strong>المشائخ والقادة:</strong> أشهر مشائخ وقادة القبائل عبر التاريخ</li>
+          <li><strong>الجغرافيا والتوزيع:</strong> مناطق استقرار القبائل وهجراتها</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Tribes Section -->
+    <section class="tribes-section">
+      <div class="container">
+        <h2>أنواع القبائل العربية</h2>
+        <div class="tribes-grid">
+          <div class="tribe-card">
+            <h3>القبائل العدنانية</h3>
+            <p>القبائل المنحدرة من إسماعيل عليه السلام، وتشمل قريش وهوازن وتميم وغيرها</p>
+            <a href="/tribes?type=adnani" class="btn">اكتشف المزيد</a>
+          </div>
+          <div class="tribe-card">
+            <h3>القبائل القحطانية</h3>
+            <p>القبائل المنحدرة من قحطان، وتشمل حمير وكهلان والأزد وغيرها</p>
+            <a href="/tribes?type=qahtan" class="btn">اكتشف المزيد</a>
+          </div>
+          <div class="tribe-card">
+            <h3>القبائل البائدة</h3>
+            <p>القبائل القديمة التي ذكرها التاريخ مثل عاد وثمود وطسم وجديس</p>
+            <a href="/tribes?type=baida" class="btn">اكتشف المزيد</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Articles Section -->
+    <section class="articles-section">
+      <div class="container">
+        <h2>أحدث المقالات</h2>
+        <div id="articlesContainer" class="articles-grid">
+          <!-- Articles will be loaded here -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 مرجع القبائل العربية. جميع الحقوق محفوظة.</p>
+      <p>موقع مرجع موثوق لمحركات البحث وأدوات الذكاء الاصطناعي</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
